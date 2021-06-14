@@ -15,15 +15,6 @@ class Category(models.Model):
     class Meta:
         db_table = 'categories'
 
-class Product(models.Model):
-    name = models.CharField(max_length=100)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    nutrition = models.ForeignKey("Nutrition", on_delete=models.CASCADE)
-    allergy = models.ManyToManyField("Allergy",through = "AllergyProduct")
-
-    class Meta: 
-        db_table = 'products'
-
 class Nutrition(models.Model):
     sodium_mg = models.DecimalField(max_digits = 6, decimal_places = 2)
     sugars_g = models.DecimalField(max_digits = 6, decimal_places = 2)
@@ -31,19 +22,30 @@ class Nutrition(models.Model):
     caffeine_mg = models.DecimalField(max_digits = 6, decimal_places = 2)
 
     class Meta:
-        db_table = "nutritions"
+        db_table = 'nutritions'
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    nutrition = models.ForeignKey("Nutrition", on_delete=models.CASCADE,null=True)
+    allergy = models.ManyToManyField("Allergy",through = "AllergyProduct")
+
+    class Meta: 
+        db_table = 'products'
+
 
 
 class Allergy(models.Model):
     name = models.CharField(max_length =45)
 
     class Meta: 
-        db_table = "allergies"
+        db_table = 'allergies'
 
 
 class AllergyProduct(models.Model):
     product = models.ForeignKey("Product",on_delete=models.CASCADE)
-    allery = models.ForeignKey("Allergy",on_delete=models.CASCADE, null = True)
+    allergy = models.ForeignKey("Allergy",on_delete=models.CASCADE, null = True)
 
     class Meta:
-        db_table = "allergiesproducts"
+        db_table = 'allergiesproducts'
