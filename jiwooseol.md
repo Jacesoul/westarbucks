@@ -1,1 +1,1 @@
-설지우
+JIWOO SEOL
